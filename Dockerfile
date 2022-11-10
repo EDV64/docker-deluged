@@ -1,4 +1,4 @@
-FROM thortz/docker-xenial
+FROM debian:buster-slim
 
 ADD app/ /app
 WORKDIR /app
