@@ -1,14 +1,24 @@
 FROM debian:buster-slim
 
-ADD app/ /app
-WORKDIR /app
+ENV TZ=Europe/Saratov \
+    LANG=ru_RU.UTF-8 \
+    LANGUAGE=ru_RU.UTF-8 \
+    LC_ALL=ru_RU.UTF-8 \
+    PORT_RPC=2975 \
+    PORT_WEB=2976 \
+    PORT_INC=3000
+#    PORTS_OUT=3001-3100
 
-RUN apt-get update && apt-get install -y curl deluged deluge-web deluge-webui apt-utils
+ADD ./config/* /config/
+COPY ./startup.sh /
 
-RUN chmod +x /app/startup.sh
+RUN apt update && apt install -y apt-utils htop mc deluged deluge-web deluge-webui \
+&& chmod +x /startup.sh \
+&& mkdir -p /logs /torrent
 
-# ports and volumes
-EXPOSE 8112/tcp 6881-6891/udp 58846
+VOLUME /config
 
-ENTRYPOINT ["/app/startup.sh","startup"]
+#EXPOSE $PORT_RPC/tcp $PORT_WEB/tcp $PORT_INC $PORTS_OUT
+EXPOSE $PORT_RPC/tcp $PORT_WEB/tcp $PORT_INC
 
+ENTRYPOINT ["/startup.sh","startup"]
