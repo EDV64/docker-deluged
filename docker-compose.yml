@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  deluge:
+    image: edv/deluge
+    build:
+      context: .
+      args:
+        B_DAEMON_PORT: $DAEMON_PORT
+        B_WEB_PORT: $WEB_PORT
+        B_LISTEN_PORT: $LISTEN_PORT
+        B_RPC_LOGIN: $RPC_LOGIN
+        B_RPC_PASSWORD: $RPC_PASSWORD
+    container_name: deluge
+    command: [ "/startup.sh" , "startup" ]
+    ports:
+      - $DAEMON_PORT:$DAEMON_PORT
+      - $WEB_PORT:$WEB_PORT
+      - $LISTEN_PORT:$LISTEN_PORT
+      - $LISTEN_PORT:$LISTEN_PORT/udp
+    volumes:
+      - deluge_data:/config
+      - /var/log/deluged:/logs
+      - /media/raid/downloads:/torrent/downloads
+      - /media/raid/video:/torrent/video
+      - /media/raid/work:/torrent/work
+    networks:
+      - bridge
+    restart: unless-stopped
+
+volumes:
+  deluge_data:
+#uncomment if build first
+#    external: true
+
+networks:
+  bridge:
