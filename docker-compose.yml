@@ -1,8 +1,8 @@
-version: "3"
+version: "3.5"
 
 services:
   deluge:
-    image: edv/deluge
+    image: edv64/deluge
     build:
       context: .
       args:
@@ -24,14 +24,13 @@ services:
       - /media/raid/downloads:/torrent/downloads
       - /media/raid/video:/torrent/video
       - /media/raid/work:/torrent/work
-    networks:
-      - bridge
     restart: unless-stopped
 
 volumes:
   deluge_data:
 #uncomment if build first
-#    external: true
+    external: true
 
 networks:
-  bridge:
+  default:
+    name: deluge_subnet
