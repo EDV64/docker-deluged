@@ -25,12 +25,9 @@ services:
       - /media/raid/video:/torrent/video
       - /media/raid/work:/torrent/work
     restart: unless-stopped
+    network_mode: bridge
 
 volumes:
   deluge_data:
-#uncomment if build first
+#comment if build first
     external: true
-
-networks:
-  default:
-    name: deluge_subnet
