@@ -21,13 +21,13 @@ services:
     volumes:
       - deluge_data:/config
       - /var/log/deluged:/logs
-      - /media/raid/downloads:/torrent/downloads
-      - /media/raid/video:/torrent/video
-      - /media/raid/work:/torrent/work
+      - /media/store/downloads:/torrent/downloads
+      - /media/store/video:/torrent/video
+      - /media/store/work:/torrent/work
     restart: unless-stopped
     network_mode: bridge
 
 volumes:
   deluge_data:
 #comment if build first
-    external: true
+#    external: true
